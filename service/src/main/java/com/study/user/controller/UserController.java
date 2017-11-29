@@ -1,12 +1,10 @@
 package com.study.user.controller;
 
+import com.study.dto.ResponseVo;
 import com.study.user.entity.User;
 import com.study.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -28,15 +26,11 @@ public class UserController {
         return userService.selectById(id);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Hello World!";
+    @PostMapping("/save")
+    public ResponseVo save(User user){
+        ResponseVo responseVo = new ResponseVo();
+        boolean result = userService.insertOrUpdate(user);
+        responseVo.setSuccessful(result);
+        return responseVo;
     }
-
-    @GetMapping("/error")
-    public String error(){
-        throw new RuntimeException("测试下看");
-    }
-
-
 }
