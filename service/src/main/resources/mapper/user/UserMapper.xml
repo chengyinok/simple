@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 用户账户表 @author chengyin @since 2017-11-28  -->
+<!-- 用户账户表 @author chengyin @since 2017-11-29  -->
 <mapper namespace="com.study.user.dao.UserDao">
 
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.study.user.entity.User">
-		<id column="id" property="id" />
-		<result column="real_name" property="realName" />
-		<result column="account_name" property="accountName" />
+		<id column="userId" property="userId" />
+		<result column="realName" property="realName" />
+		<result column="accountName" property="accountName" />
 		<result column="password" property="password" />
-		<result column="delete_status" property="deleteStatus" />
+		<result column="deleteStatus" property="deleteStatus" />
 		<result column="locked" property="locked" />
 		<result column="description" property="description" />
-		<result column="credentials_salt" property="credentialsSalt" />
-		<result column="creator_id" property="creatorId" />
-		<result column="create_time" property="createTime" />
-		<result column="update_time" property="updateTime" />
-		<result column="dept_id" property="deptId" />
+		<result column="salt" property="salt" />
+		<result column="creatorId" property="creatorId" />
+		<result column="createTime" property="createTime" />
+		<result column="updateTime" property="updateTime" />
+		<result column="deptId" property="deptId" />
 		<result column="img" property="img" />
 		<result column="email" property="email" />
 		<result column="remark" property="remark" />
@@ -24,22 +24,27 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-		t.id as id,
-		t.real_name as realName,
-		t.account_name as accountName,
+		t.userId as userId,
+		t.realName as realName,
+		t.accountName as accountName,
 		t.password as password,
-		t.delete_status as deleteStatus,
+		t.deleteStatus as deleteStatus,
 		t.locked as locked,
 		t.description as description,
-		t.credentials_salt as credentialsSalt,
-		t.creator_id as creatorId,
-		t.create_time as createTime,
-		t.update_time as updateTime,
-		t.dept_id as deptId,
+		t.salt as salt,
+		t.creatorId as creatorId,
+		t.createTime as createTime,
+		t.updateTime as updateTime,
+		t.deptId as deptId,
 		t.img as img,
 		t.email as email,
 		t.remark as remark
     </sql>
 
+
+	<!-- 用户账户表 分页查询 -->
+	<select id="listPage" parameterType="com.study.user.entity.User" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List"/> FROM user t
+	</select>
 
 </mapper>

@@ -33,5 +33,10 @@ public class UserController {
         return "Hello World!";
     }
 
+    @GetMapping("/error")
+    public String error(){
+        throw new RuntimeException("测试下看");
+    }
+
 
 }

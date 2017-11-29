@@ -13,6 +13,11 @@
     <dependencies>
         <dependency>
             <groupId>com.study</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.study</groupId>
             <artifactId>service</artifactId>
             <version>${project.version}</version>
         </dependency>

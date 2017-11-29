@@ -13,4 +13,6 @@ import com.study.user.entity.User;
  * @since 2017-11-28
  */
 public interface UserService extends IService<User> {
+
+
 }
