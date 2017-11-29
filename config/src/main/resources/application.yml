@@ -17,7 +17,19 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
-
+  # REDIS (RedisProperties)
+  # Redis数据库索引（默认为0）
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 0
 mybatis-plus:
   mapper-locations: classpath:/mapper/user/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
