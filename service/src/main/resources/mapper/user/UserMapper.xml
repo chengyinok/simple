@@ -41,10 +41,4 @@
 		t.remark as remark
     </sql>
 
-
-	<!-- 用户账户表 分页查询 -->
-	<select id="listPage" parameterType="com.study.user.entity.User" resultMap="BaseResultMap">
-		SELECT <include refid="Base_Column_List"/> FROM user t
-	</select>
-
 </mapper>

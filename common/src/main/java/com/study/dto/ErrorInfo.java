@@ -1,4 +1,4 @@
-package com.study.exception;
+package com.study.dto;
 
 public class ErrorInfo<T> {
     public static final Integer OK = 0;

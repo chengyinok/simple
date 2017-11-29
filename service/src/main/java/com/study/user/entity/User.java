@@ -1,13 +1,10 @@
 package com.study.user.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
 
@@ -26,6 +23,7 @@ public class User extends Model<User> {
     /**
      * 用户id
      */
+    @TableId(value = "userId",type = IdType.AUTO)
 	private Integer userId;
 	
     /**
