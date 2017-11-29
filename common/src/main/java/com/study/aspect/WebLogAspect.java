@@ -14,6 +14,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * controller层日志切面
@@ -41,9 +44,14 @@ public class WebLogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         // 记录下请求内容
+        logger.info("HEADERS : " + getHeadersInfo(request));
         logger.info("URL : " + request.getRequestURL().toString());
+        logger.info("URI : " + request.getRequestURI());
         logger.info("HTTP_METHOD : " + request.getMethod());
         logger.info("IP : " + request.getRemoteAddr());
+        logger.info("queryString", request.getQueryString());
+        logger.info("method", request.getMethod());
+        logger.info("parameters", request.getParameterMap());
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
 
@@ -54,5 +62,22 @@ public class WebLogAspect {
         // 处理完请求，返回内容
         logger.info("RESPONSE : " + ret);
         logger.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
+    }
+
+    /**
+     * 获取头信息
+     *
+     * @param request
+     * @return
+     */
+    private Map<String, String> getHeadersInfo(HttpServletRequest request) {
+        Map<String, String> map = new HashMap<>();
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        return map;
     }
 }
