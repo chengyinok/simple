@@ -19,7 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * controller层日志切面
+ *@描述      controller层日志切面
+ *@创建人    chenyyin
+ *@创建时间  2017/12/1
+ *@修改人和其它信息
  */
 @Aspect
 @Order(5)
