@@ -29,12 +29,9 @@ public class AppTest {
     @Test
     public void test() throws Exception {
 
-        // 保存字符串
-        redisUtils.set("aaa", "111");
-
         // 保存对象
         User user = userService.selectById(1);
-        redisUtils.set(user.getRealName(), JSON.toJSONString(user));
+        redisUtils.set("user"+user.getUserId(), user);
 
     }
 }
