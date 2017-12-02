@@ -1,6 +1,7 @@
 package com.study.user.service.impl;
 
 
+import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,12 @@ import com.study.user.service.UserService;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
 
-
-
+    @Override
+    public Page<User> selectUserPage() {
+        Page<User> page = new Page<>(0,10);
+        page = selectPage(page);
+        return page;
+    }
 
     /**
      * 对密码进行md5加密,并返回密文和salt，包含在User对象中

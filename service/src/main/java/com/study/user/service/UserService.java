@@ -1,6 +1,7 @@
 package com.study.user.service;
 
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.study.user.entity.User;
 
@@ -14,5 +15,5 @@ import com.study.user.entity.User;
  */
 public interface UserService extends IService<User> {
 
-
+    Page<User> selectUserPage();
 }

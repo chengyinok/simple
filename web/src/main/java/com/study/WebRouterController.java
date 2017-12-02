@@ -13,7 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WebRouterController {
 
     @GetMapping("/login")
-    public String index(ModelMap map) {
+    public String login(ModelMap map) {
         return "login";
+    }
+
+    @GetMapping("/index")
+    public String adminIndex(){
+        return "index";
+    }
+
+    @GetMapping("/admin/user/list")
+    public String adminUser(){
+        return "/admin/user/list";
     }
 }

@@ -1,12 +1,18 @@
 package com.study.user.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.study.base.BaseController;
+import com.study.dto.PageDTO;
 import com.study.dto.ResponseVo;
 import com.study.user.entity.User;
 import com.study.user.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +28,19 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
 
     @ApiOperation(value="获取用户列表", notes="")
     @GetMapping("")
-    public List<User> getUserList() {
-        List<User> r = userService.selectList(new EntityWrapper<User>());
-        return r;
+    public JSONObject getUserList(PageDTO pageDTO,User user) {
+        logger.info("page:"+pageDTO.toString());
+        logger.info("user:"+user.toString());
+        return pagingDataHandle(userService.selectUserPage());
     }
 
 
