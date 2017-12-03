@@ -1,9 +1,16 @@
+<div>
+    <div class="layui-inline">
+        <input placeholder="用户名" class="layui-input" name="id" id="demoReload" autocomplete="off" />
+    </div>
+    <div class="layui-inline">
+        <button id="search" class="layui-btn">搜索</button>
+    </div>
+    <div class="layui-inline fr">
+        <button id="addUser" class="layui-btn layui-btn-normal ">新增用户</button>
+    </div>
+</div>
 
-<button class="layui-btn">新增用户</button>
-<button id="search" class="layui-btn">搜索</button>
-<button class="layui-btn layui-btn-normal">一个标准的按钮</button>
-
-<table lay-filter="demo" lay-data="{id: 'user'}">
+<table lay-filter="demo" lay-data="{id: 'user',height: 'full-200'}">
     <thead>
     <tr>
         <th lay-data="{checkbox:true}"></th>
@@ -40,6 +47,10 @@
                 });
             });
 
+        });
+        
+        $("#addUser").click(function () {
+            $("#contentDiv").load('/admin/user/add');
         });
     });
 </script>

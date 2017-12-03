@@ -2,6 +2,7 @@ package com.study.user.service.impl;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.study.dto.ResponseVo;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
@@ -29,22 +30,28 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         return page;
     }
 
+    @Override
+    public ResponseVo insertUser(User user) {
+        ResponseVo responseVo = new ResponseVo();
+        user = md5Password(user,2);
+        boolean result = insert(user);
+        responseVo.setSuccessful(result);
+        return responseVo;
+    }
+
     /**
      * 对密码进行md5加密,并返回密文和salt，包含在User对象中
-     * @param username 用户名
-     * @param password 密码
+     * @param user 用户
      * @param hashIterations 迭代次数
      * @return UserEntity对象，包含密文和salt
      */
-    public static User md5Password(String username,String password,int hashIterations){
+    public static User md5Password(User user,int hashIterations){
         SecureRandomNumberGenerator secureRandomNumberGenerator=new SecureRandomNumberGenerator();
         String salt= secureRandomNumberGenerator.nextBytes().toHex();
         //组合username,两次迭代，对密码进行加密
-        String password_cryto = new Md5Hash(password,username+salt,hashIterations).toString();
-        User user=new User();
+        String password_cryto = new Md5Hash(user.getPassword(),user.getAccountName()+salt,hashIterations).toString();
         user.setPassword(password_cryto);
         user.setSalt(salt);
-        user.setAccountName(username);
         return user;
     }
 }

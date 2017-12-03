@@ -19,11 +19,26 @@ public class WebRouterController {
 
     @GetMapping("/index")
     public String adminIndex(){
-        return "index";
+        return "admin/index";
     }
 
+    /**
+     * 用户列表
+     * @return
+     */
     @GetMapping("/admin/user/list")
-    public String adminUser(){
-        return "/admin/user/list";
+    public String listUser(){
+        return "admin/user/list";
     }
+
+    /**
+     * 用户新增
+     * @return
+     */
+    @GetMapping("/admin/user/add")
+    public String addUser(){
+        return "admin/user/add";
+    }
+
+
 }

@@ -48,10 +48,7 @@ public class UserController extends BaseController {
     @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
     @PostMapping("")
     public ResponseVo postUser(User user){
-        ResponseVo responseVo = new ResponseVo();
-        boolean result = userService.insert(user);
-        responseVo.setSuccessful(result);
-        return responseVo;
+        return userService.insertUser(user);
     }
 
     @ApiOperation(value="获取用户详细信息", notes="根据url的id来获取用户详细信息")
