@@ -8,6 +8,8 @@ public class ResponseVo {
 
     private Object data;
 
+    private String url;
+
     public ResponseVo(){
 
     }
@@ -51,12 +53,21 @@ public class ResponseVo {
         this.data = data;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "ResponseVo{" +
                 "successful=" + successful +
                 ", message='" + message + '\'' +
                 ", data=" + data +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

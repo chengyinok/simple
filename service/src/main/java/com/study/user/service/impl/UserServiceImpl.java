@@ -1,7 +1,9 @@
 package com.study.user.service.impl;
 
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.study.dto.PageDTO;
 import com.study.dto.ResponseVo;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -24,9 +26,11 @@ import com.study.user.service.UserService;
 public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
 
     @Override
-    public Page<User> selectUserPage() {
-        Page<User> page = new Page<>(0,10);
-        page = selectPage(page);
+    public Page<User> selectUserPage(PageDTO pageDTO, User user) {
+        Page<User> page = new Page<>(pageDTO.getPage(),pageDTO.getLimit());
+        EntityWrapper<User> entityWrapper = new EntityWrapper<>();
+        entityWrapper.like("accountName",user.getAccountName());
+        page = selectPage(page,entityWrapper);
         return page;
     }
 

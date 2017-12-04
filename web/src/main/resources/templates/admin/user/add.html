@@ -65,7 +65,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
-                <input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off"
+                <input type="text" name="email"  placeholder="请输入邮箱" autocomplete="off"
                        class="layui-input"/>
             </div>
         </div>
@@ -122,13 +122,12 @@
         });
 
         //监听提交
-        form.on('submit(demo1)', function (data) {
+        form.on('submit(demo1)', function () {
             Base.formCommit('userForm', '/users', function (data) {
-                Base.loadPage('/admin/user/list');
+                if(data.successful){
+                    Base.loadPage('/admin/user/list');
+                }
             });
-//                layer.alert(JSON.stringify(data.field), {
-//                    title: '最终的提交信息'
-//                })
             return false;
         });
 

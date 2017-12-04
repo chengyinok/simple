@@ -1,4 +1,36 @@
 var Base = {
+    failLayerMsg: function (msg) {
+        layer.msg(msg, {icon: 5});
+    },
+    failSweetAlert: function (msg) {
+        swal(
+            '请求结果',
+            msg,
+            'error'
+        );
+    },
+    successSweetAlert: function (msg) {
+        swal(
+            '请求结果',
+            '1',
+            'success'
+        );
+    },
+    deleteSweetAlertConfirm: function (url, data, callback) {
+        swal({
+                title: '确定删除吗？',
+                text: "你将无法恢复删除的数据！!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: '确定'
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    Base.deleteAjax(url, data, callback);
+                }
+            });
+    },
     ajax: function (type, url, data, callback) {
         var index;
         $.ajax({
@@ -12,26 +44,39 @@ var Base = {
             },
             success: function (resultdata) {
                 layer.close(index);
-                callback(resultdata);
+                if (resultdata.successful) {
+                    callback(resultdata);
+                } else {
+                    Base.failLayerMsg(resultdata.message);
+                }
+
             },
             error: function (xhr, textstatus, thrown) {
-
+                layer.close(index);
+                console.info(xhr);
+                console.info(textstatus);
+                console.info(thrown);
             }
         });
-    },
+    }
+    ,
     getAjax: function (url, data, callback) {
-        this.ajax('get', url, data, callback);
-    },
+        Base.ajax('get', url, data, callback);
+    }
+    ,
     postAjax: function (url, data, callback) {
-        this.ajax('post', url, data, callback);
-    },
+        Base.ajax('post', url, data, callback);
+    }
+    ,
     putAjax: function (url, data, callback) {
-        this.ajax('put', url, data, callback);
-    },
+        Base.ajax('put', url, data, callback);
+    }
+    ,
     deleteAjax: function (url, data, callback) {
-        this.ajax('delete', url, data, callback);
-    },
-    formCommit: function (formId, commitUrl,callback) {
+        Base.ajax('delete', url, data, callback);
+    }
+    ,
+    formCommit: function (formId, commitUrl, callback) {
         var index;
         var data = $("#" + formId).serialize();
         $.ajax({
@@ -43,15 +88,20 @@ var Base = {
             },
             success: function (resultdata) {
                 layer.close(index);
-                callback(resultdata);
+                if (resultdata.successful) {
+                    callback(resultdata);
+                } else {
+                    Base.failLayerMsg(resultdata.message);
+                }
             },
             error: function (xhr, textstatus, thrown) {
 
             }
         });
-    },
+    }
+    ,
     loadPage: function (url) {
-        $("#contentDiv").load(url, function (data, status, xhr) {
+        $("#switchBody").load(url, function (data, status, xhr) {
             if (xhr.getResponseHeader('sessionstatus') == 'timeout') {
                 window.location = "/";
             }

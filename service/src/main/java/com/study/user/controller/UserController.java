@@ -40,7 +40,7 @@ public class UserController extends BaseController {
     public JSONObject getUserList(PageDTO pageDTO,User user) {
         logger.info("page:"+pageDTO.toString());
         logger.info("user:"+user.toString());
-        return pagingDataHandle(userService.selectUserPage());
+        return pagingDataHandle(userService.selectUserPage(pageDTO,user));
     }
 
 
