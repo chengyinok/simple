@@ -2,6 +2,9 @@ var Base = {
     failLayerMsg: function (msg) {
         layer.msg(msg, {icon: 5});
     },
+    successLayerMsg : function (msg) {
+        layer.msg(msg, {icon: 6});
+    },
     failSweetAlert: function (msg) {
         swal(
             '请求结果',

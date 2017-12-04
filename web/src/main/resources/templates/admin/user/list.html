@@ -58,7 +58,7 @@
                 } else if(obj.event === 'del'){
                     Base.deleteSweetAlertConfirm('/users/'+data.userId,{},function (result) {
                         if(result.successful){
-                            Base.successSweetAlert("操作成功！");
+                            Base.successLayerMsg("操作成功！");
                             Base.loadPage('/admin/user/list');
                         }
                     });
