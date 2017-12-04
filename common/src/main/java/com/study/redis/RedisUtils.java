@@ -98,8 +98,9 @@ public class RedisUtils {
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -118,7 +119,43 @@ public class RedisUtils {
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            return result;
         }
-        return result;
+    }
+
+    /**
+     * 写入缓存
+     * @param key
+     * @param value
+     * @param expireTime
+     * @return
+     */
+    public boolean set(String key,Object value,Integer expireTime,TimeUnit timeUnit){
+        boolean result = false;
+        try {
+            ValueOperations<String,Object> operations = redisTemplate.opsForValue();
+            operations.set(key,value);
+            redisTemplate.expire(key,expireTime, timeUnit);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return result;
+        }
+    }
+
+    public boolean increment(String key,int size){
+        boolean result = false;
+        try {
+            ValueOperations<String, Object> opsForValue = redisTemplate.opsForValue();
+            opsForValue.increment(key, size);
+            opsForValue.set(key+"_json",size);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return result;
+        }
     }
 }
