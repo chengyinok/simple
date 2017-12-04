@@ -51,3 +51,9 @@ mybatis-plus:
 logging:
   config: classpath:logback-config.xml
 
+security:
+  user:
+    name: user
+    password: pwd
+
+

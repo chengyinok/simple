@@ -76,6 +76,20 @@
             <version>2.1.4</version>
         </dependency>
 
+        <!--spring boot可视化监控 start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_spring_boot</artifactId>
+            <version>0.0.26</version>
+        </dependency>
+        <!--end-->
+
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatisplus-spring-boot-starter</artifactId>
