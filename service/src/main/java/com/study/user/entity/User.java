@@ -75,6 +75,11 @@ public class User extends Model<User> {
      * 更新时间
      */
 	private Date updateTime;
+
+	/**
+	 * 最后登录时间
+	 */
+	private Date lastLoginTime;
 	
 	private Integer deptId;
 	
@@ -228,6 +233,15 @@ public class User extends Model<User> {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
 	public Integer getDeptId() {
 		return deptId;
 	}

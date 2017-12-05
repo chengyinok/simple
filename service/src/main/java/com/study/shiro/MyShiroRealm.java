@@ -10,7 +10,9 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,38 +66,44 @@ public class MyShiroRealm extends AuthorizingRealm {
         if ("LOCK".equals(redisUtils.get(SHIRO_IS_LOCK+accountName))){
             throw new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！");
         }
+        List<User> userList = new ArrayList<>();
         User user = new User();
         user.setAccountName(accountName);
-        user.setPassword(password);
-        //密码进行加密处理  明文为  password+accountName
-        user = UserServiceImpl.md5Password(user,2);
-
-        // 从数据库获取对应用户名密码的用户
-        List<User> userList = userService.selectList(new EntityWrapper<>(user));
-        if(userList.size()!=0){
-            user = userList.get(0);
+        userList = userService.selectList(new EntityWrapper<>(user));
+        if(userList.size() == 0){
+            throw new UnknownAccountException();
         }else{
-            user = null;
+            user = userList.get(0);
         }
-        if (null == user) {
-            throw new UnknownAccountException("帐号或密码不正确！");
-        }else if("0".equals(user.getLocked())){
+        // 从数据库查询出来的账号名和密码,与用户输入的账号和密码对比
+        // 当用户执行登录时,在方法处理上要实现subject.login(token);
+        // 然后会自动进入这个类进行认证
+        // 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得shiro自带的不好可以自定义实现
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+                user, // 用户对象
+                user.getPassword(), // 密码
+                ByteSource.Util.bytes(accountName + user.getSalt()),// salt=username+salt
+                getName() // realm name
+        );
+
+        // 当验证都通过后，把用户信息放在session里
+        Session session = SecurityUtils.getSubject().getSession();
+        if("1".equals(user.getLocked())){
             /**
-
              * 如果用户的status为禁用。那么就抛出<code>DisabledAccountException</code>
-
              */
             throw new DisabledAccountException("此帐号已经设置为禁止登录！");
         }else{
             //更新登录时间 last login time
-
-//            user.setLastLoginTime(new Date());
-//            sysUserService.updateById(user);
+            user.setLastLoginTime(new Date());
+            userService.updateById(user);
             //清空登录计数
             redisUtils.set(SHIRO_LOGIN_COUNT+accountName, "0");
         }
+        // 用户对象
+        session.setAttribute("userSession", user);
         logger.info("身份认证成功，登录用户："+accountName);
-        return new SimpleAuthenticationInfo(user, password, getName());
+        return authenticationInfo;
     }
 
     @Override
