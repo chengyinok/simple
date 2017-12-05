@@ -14,7 +14,7 @@ import java.util.Map;
  * @创建时间 2017/12/4
  * @描述
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。

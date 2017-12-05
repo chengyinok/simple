@@ -40,5 +40,9 @@ public class WebRouterController {
         return "admin/user/add";
     }
 
+    @GetMapping("/buyPlan/list")
+    public String listBuyPlan(){
+        return "buyPlan/list";
+    }
 
 }

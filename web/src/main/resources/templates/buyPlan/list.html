@@ -1,0 +1,80 @@
+<table id="buyPlanTable" data-show-columns="true"></table>
+
+<link rel="stylesheet" data-th-href="@{/bootstrap/css/bootstrap.css}"/>
+<link rel="stylesheet" data-th-href="@{/bootstrap-table/bootstrap-table.min.css}"/>
+<link rel="stylesheet" data-th-href="@{/bootstrap-table/sticky-header/bootstrap-table-sticky-header.css}"/>
+<script data-th-src="@{/bootstrap/js/bootstrap.min.js}"/>
+<script data-th-src="@{/bootstrap-table/bootstrap-table.min.js}"/>
+<script data-th-src="@{/bootstrap-table/sticky-header/bootstrap-table-sticky-header.js}"/>
+<script data-th-src="@{/bootstrap-table/bootstrap-table-locale-all.min.js}"/>
+<script type="text/javascript">
+    var stickyHeaderOffsetY = 0;
+    if ( $('.navbar-fixed-top').css('height') ) {
+        stickyHeaderOffsetY = +$('.navbar-fixed-top').css('height').replace('px','');
+    }
+    if ( $('.navbar-fixed-top').css('margin-bottom') ) {
+        stickyHeaderOffsetY += +$('.navbar-fixed-top').css('margin-bottom').replace('px','');
+    }
+    $('#buyPlanTable').bootstrapTable('destroy').bootstrapTable({
+        url: '/buyPlan',
+        striped:true,
+        sortStable:true,
+        showToggle:true,
+        stickyHeader: true,
+        pagination: true,
+        showRefresh:true,
+        stickyHeaderOffsetY: stickyHeaderOffsetY +'px',
+        queryParams: function getParams(params) {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                sortName:this.sortName,
+                sortOrder:this.sortOrder,
+            };
+            return temp;
+        },
+        columns: [{
+            field: 'commonName',
+            title: '商品名称'
+        }, {
+            field: 'goodsSpec',
+            title: '规格'
+        }, {
+            field: 'goodsUtil',
+            title: '单位'
+        }, {
+            field: 'goodsFactory',
+            title: '厂家'
+        }, {
+            field: 'userSupperName',
+            title: '供应商'
+        }, {
+            field: 'goodsPrice',
+            title: '单价',
+            sortable:true
+        }, {
+            field: 'sellPrice',
+            title: '零售价'
+        }, {
+            field: 'planNum',
+            title: '计划数量'
+        }, {
+            field: 'itemAmount',
+            title: '小计'
+        }, {
+            field: 'monthUsed',
+            title: '月用量'
+        }, {
+            field: 'storageNum',
+            title: '库存量'
+        }, {
+            field: 'lastNo',
+            title: '上批批号'
+        }, {
+            field: 'remark',
+            title: '备注'
+        }],
+        onSort : function (name,order) {
+            console.info(name+order);
+        }
+    });
+</script>
+

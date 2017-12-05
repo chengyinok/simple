@@ -62,7 +62,7 @@ public class MybatisPlusConfig {
 //            public boolean doFilter(MetaObject metaObject) {
 //                MappedStatement ms = PluginUtils.getMappedStatement(metaObject);
 //                // 过滤自定义查询此时无租户信息约束【 麻花藤 】出现
-//                if ("com.baomidou.springboot.mapper.UserMapper.selectListBySQL".equals(ms.getId())) {
+//                if ("com.baomidou.springboot.dao.UserMapper.selectListBySQL".equals(ms.getId())) {
 //                    return true;
 //                }
 //                return false;
