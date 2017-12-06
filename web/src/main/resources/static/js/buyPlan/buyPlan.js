@@ -45,13 +45,15 @@ $(function () {
         sortStable:true,
         toolbar: '#searchDiv', //工具按钮用哪个容器
         stickyHeader: true,
-        resizable:true,
+        // resizable:true,
         locale:'zh-CN',        //中文
         pagination: true,
         paginationHAlign:'left',
         paginationDetailHAlign:'right',
         paginationPreText:'上一页',
         paginationNextText:'下一页',
+        fixedColumns: true,
+        fixedNumber: 1,
         // showRefresh:true,
         // search:true,
         // searchAlign:'left',
