@@ -9,15 +9,29 @@
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
     <link th:href="@{//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet"/>
 </head>
-<body>
-<div class="layui-input-inline" id="searchDiv">
-    <form class="form-horizontal" action="#" id="searchForm">
-        <input name="commonName" class="form-control" />
-        <input name="commonName" class="form-control" />
-        <input name="commonName" class="form-control" />
+<body class="pd15">
+<div id="searchDiv" class="form-inline">
+    <form action="#" id="searchForm">
+        <div class="editable-input" style="position: relative">
+            <input name="commonName" class="form-control" placeholder="商品名称" />
+            <span class="editable-clear-x js-inputClear"></span>
+        </div>
+        <div class="editable-input" style="position: relative">
+            <input name="goodsFactory" class="form-control" placeholder="厂家" />
+            <span class="editable-clear-x js-inputClear"></span>
+        </div>
+        <div class="editable-input" style="position: relative">
+            <input name="userSupperName" class="form-control" placeholder="供应商" />
+            <span class="editable-clear-x js-inputClear"></span>
+        </div>
+        <button class="btn btn-primary" id="search" type="button">搜索</button>
+        <button class="btn btn-warning" id="reset" type="reset">清空</button>
     </form>
 </div>
-<table id="buyPlanTable" data-show-columns="true"></table>
+<div style="width: 80%">
+    <table id="buyPlanTable" data-show-columns="true"></table>
+</div>
+
 
 <link rel="stylesheet" data-th-href="@{/bootstrap/css/bootstrap.css}"/>
 <link rel="stylesheet" data-th-href="@{/bootstrap-table/bootstrap-table.min.css}"/>
@@ -30,6 +44,8 @@
 <script data-th-src="@{/bootstrap-table/bootstrap-table-locale-all.min.js}"/>
 <script data-th-src="@{/bootstrap-table/bootstrap3-editable/js/bootstrap-editable.min.js}"/>
 <script data-th-src="@{/bootstrap-table/editable/bootstrap-table-editable.js}"/>
+<script data-th-src="@{/bootstrap-table/resizable/bootstrap-table-resizable.js}"/>
+<script data-th-src="@{/bootstrap-table/resizable/colResizable-1.6.js}"/>
 <script data-th-src="@{/js/buyPlan/buyPlan.js}"/>
 </body>
 </html>
