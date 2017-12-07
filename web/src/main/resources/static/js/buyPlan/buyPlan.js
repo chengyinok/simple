@@ -8,12 +8,12 @@ $(function () {
     var searchTable = function(tableId,searchFormId) {
         var params = $("#"+tableId).bootstrapTable('getOptions');
         params.queryParams= function (params) {
+            params.page = 1;
            $.each($("#"+searchFormId).serializeArray(),function (i,field) {
                if(null != field.value && ""!=field.value){
                    params[field.name] = field.value;
                }
            });
-           console.info(params);
             return params;
         }
         $("#"+tableId).bootstrapTable('refresh',params);
@@ -44,21 +44,28 @@ $(function () {
         striped:true,
         sortStable:true,
         toolbar: '#searchDiv', //工具按钮用哪个容器
-        stickyHeader: true,
-        // resizable:true,
+        resizable:true,
+        // showFooter: true,
+        // groupBy:"true",
+        // groupByField:"commonName",
         locale:'zh-CN',        //中文
         pagination: true,
-        paginationHAlign:'left',
-        paginationDetailHAlign:'right',
-        paginationPreText:'上一页',
-        paginationNextText:'下一页',
-        fixedColumns: true,
-        fixedNumber: 1,
-        // showRefresh:true,
+        // paginationHAlign:'left',
+        // paginationDetailHAlign:'right',
+        // paginationPreText:'上一页',
+        // paginationNextText:'下一页',
+        // fixedColumns: true,
+        // fixedNumber: 1,
+        showRefresh:true,
         // search:true,
         // searchAlign:'left',
         sidePagination:'server',
+        stickyHeader: true,
         stickyHeaderOffsetY: stickyHeaderOffsetY +'px',
+        queryParams  : function (params) {
+            params.page = this.pageNumber;
+            return params;
+        },
         columns: [{
             checkbox: true
         }, {
