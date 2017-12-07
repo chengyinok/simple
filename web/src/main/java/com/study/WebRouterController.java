@@ -45,4 +45,9 @@ public class WebRouterController {
         return "buyPlan/list";
     }
 
+    @GetMapping("/buyPlan/listd")
+    public String listBuyPland(){
+        return "buyPlan/list_d";
+    }
+
 }

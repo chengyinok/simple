@@ -7,6 +7,7 @@ import com.study.base.BaseController;
 import com.study.buyPlan.entity.BuyPlanItemTemp;
 import com.study.buyPlan.service.IBuyPlanItemTempService;
 import com.study.dto.BootstrapTablePage;
+import com.study.dto.DataTablesPage;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +50,28 @@ public class BuyPlanItemTempController extends BaseController{
             List<BuyPlanItemTemp> buyPlanItemTemps = buyPlanItemTempService.selectList(entityWrapper);
             result.put("total",buyPlanItemTemps.size());
             result.put("rows",buyPlanItemTemps);
+        }
+        return result;
+    }
+
+    @GetMapping("/dts")
+    public Map<String,Object> getListDts(DataTablesPage dataTablesPage, BuyPlanItemTemp buyPlanItemTemp){
+        Map<String,Object> result = new HashMap<>();
+        EntityWrapper<BuyPlanItemTemp> entityWrapper = new EntityWrapper<>(buyPlanItemTemp);
+//        if(StringUtils.isNotBlank(bootstrapTablePage.getOrder()) && StringUtils.isNotBlank(bootstrapTablePage.getSort())){
+//            entityWrapper.orderBy(bootstrapTablePage.getSort(),bootstrapTablePage.getOrder().equals("asc") ? true : false);
+//        }
+        if(dataTablesPage.getLength() != null && dataTablesPage.getStart() != null){
+            Page<BuyPlanItemTemp> page = new Page<>(dataTablesPage.getStart()/dataTablesPage.getLength() + 1,dataTablesPage.getLength());
+            page = buyPlanItemTempService.selectPage(page,entityWrapper);
+            result.put("recordsTotal",page.getRecords().size());
+            result.put("recordsFiltered",page.getTotal());
+            result.put("data",page.getRecords());
+        }else{
+            List<BuyPlanItemTemp> buyPlanItemTemps = buyPlanItemTempService.selectList(entityWrapper);
+            result.put("recordsTotal",buyPlanItemTemps.size());
+            result.put("recordsFiltered",buyPlanItemTemps.size());
+            result.put("data",buyPlanItemTemps);
         }
         return result;
     }

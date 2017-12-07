@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Study</title>
+    <!--https://www.datatables.net/download/release-->
+    <!--<link rel="stylesheet" data-th-href="@{/dataTables/css/jquery.dataTables.css}"/>-->
+    <!--<link rel="stylesheet" data-th-href="@{/dataTables/css/dataTables.bootstrap.css}"/>-->
+    <!--<link rel="stylesheet" data-th-href="@{/dataTables/plugins/fixedHeader/css/fixedHeader.dataTables.css}"/>-->
+    <!--<link rel="stylesheet" data-th-href="@{/dataTables/plugins/fixedColumns/css/fixedColumns.dataTables.scss}"/>-->
+    <!--<link rel="stylesheet" data-th-href="@{/dataTables/plugins/buttons/css/buttons.dataTables.scss}"/>-->
+    <!--bootstrap 3-->
+    <link rel="stylesheet" data-th-href="@{/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" data-th-href="@{https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css}"/>
+    <link rel="stylesheet" data-th-href="@{https://cdn.datatables.net/buttons/1.4.2/css/buttons.bootstrap.min.css}"/>
+    <link rel="stylesheet" data-th-href="@{https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.bootstrap.min.css}"/>
+    <style type="text/css">
+        table tbody td{
+            color: #1E9FFF;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%" style="white-space: nowrap;" >
+        <thead>
+        <tr>
+            <th>商品名称</th>
+            <th>规格</th>
+            <th>单位</th>
+            <th>厂家</th>
+            <th>供应商</th>
+            <th>供应商</th>
+            <th>供应商</th>
+            <th>单价</th>
+            <th>零售价</th>
+            <th>计划数量</th>
+            <th>小计</th>
+            <th>月用量</th>
+            <th>库存量</th>
+            <th>上批批号</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<script data-th-src="@{/dataTables/js/jquery.js}"/>
+<!--<script data-th-src="@{/dataTables/js/jquery.dataTables.js}"/>-->
+<!--&lt;!&ndash;<script data-th-src="@{/dataTables/js/dataTables.bootstrap.js}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;<script data-th-src="@{/dataTables/plugins/fixedHeader/js/dataTables.fixedHeader.js}"/>&ndash;&gt;-->
+<!--<script data-th-src="@{/dataTables/plugins/fixedColumns/js/dataTables.fixedColumns.js}"/>-->
+<!--<script data-th-src="@{/dataTables/plugins/buttons/js/dataTables.buttons.js}"/>-->
+<!--<script data-th-src="@{/dataTables/plugins/buttons/js/buttons.colVis.js}"/>-->
+<!--bootstrap-->
+<script data-th-src="@{/bootstrap/js/bootstrap.min.js}"/>
+<script data-th-src="@{https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js}"/>
+<script data-th-src="@{https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js}"/>
+<script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js}"/>
+<script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/buttons.bootstrap.min.js}"/>
+<script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/buttons.colVis.min.js}"/>
+<script data-th-src="@{https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js}"/>
+<script type="text/javascript" language="javascript" class="init">
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "sProcessing":   "处理中...",
+                "sLengthMenu":   "显示 _MENU_ 项结果",
+                "sZeroRecords":  "没有匹配结果",
+                "sInfo":         "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty":    "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix":  "",
+                "sSearch":       "搜索:",
+                "sUrl":          "",
+                "sEmptyTable":     "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands":  ",",
+                "oPaginate": {
+                    "sFirst":    "首页",
+                    "sPrevious": "上页",
+                    "sNext":     "下页",
+                    "sLast":     "末页"
+                },
+                "oAria": {
+                    "sSortAscending":  ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                },
+                buttons: {
+                    colvis: '列隐藏'
+                }
+            }
+            ,"paging": false
+            ,dom: 'frBtip'
+            ,buttons: [ 'colvis' ]
+            ,"searching": false
+            ,"autoWidth": true
+//            ,fixedHeader: true
+            ,fixedColumns: {
+                leftColumns: 0,
+                rightColumns: 1
+            }
+            ,"scrollY": 500
+            ,"scrollX": true
+//            ,"ajax":'/buyPlan/dts'
+            ,"ajax":function(data, callback, settings){
+                var order = data.order;
+                var columns = data.columns;
+                var index = order[0].column;
+                var dir = order[0].dir;
+                var orderName = columns[index].data;
+            }
+            ,"serverSide": true
+            ,"columns":[
+                {"data":"commonName"}
+                ,{"data":"goodsSpec"}
+                ,{"data":"goodsUtil"}
+                ,{"data":"goodsFactory"}
+                ,{"data":"userSupperName"}
+                ,{"data":"userSupperName"}
+                ,{"data":"userSupperName"}
+                ,{"data":"goodsPrice"}
+                ,{"data":"sellPrice"}
+                ,{"data":"planNum"}
+                ,{"data":"itemAmount"}
+                ,{"data":"monthUsed"}
+                ,{"data":"storageNum"}
+                ,{"data":"lastNo"}
+                ,{"data":"remark"}
+                ,{"data":function () {
+                    return '<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</button>';
+                },"orderable": false}
+            ]
+        });
+
+        $("#example tbody").on('click','td',function () {
+            var value = $(this).html();
+            if(value.indexOf('input') == -1){
+                $(this).html('<input class="form-control" value="'+value+'" />');
+                $(this).find('input')[0].focus();
+                value =$(this).find('input').val();
+                $(this).find('input').val('');
+                $(this).find('input').val(value);
+            }
+        });
+        $("#example tbody").on('blur','td',function () {
+            var value = $(this).html();
+            console.info(value);
+            if(value.indexOf('input') != -1){
+                value = $(this).find('input').val();
+                $(this).html(value);
+            }
+        });
+        
+        function getQueryCondition(data) {
+            var param = {};
+            //组装排序参数
+            if (data.order&&data.order.length&&data.order[0]) {
+                switch (data.order[0].column) {
+                    case 1:
+                        param.orderColumn = "name";
+                        break;
+                    case 2:
+                        param.orderColumn = "position";
+                        break;
+                    case 3:
+                        param.orderColumn = "status";
+                        break;
+                    case 4:
+                        param.orderColumn = "start_date";
+                        break;
+                    default:
+                        param.orderColumn = "name";
+                        break;
+                }
+                param.orderDir = data.order[0].dir;
+            }
+            //组装查询参数
+            param.fuzzySearch = userManage.fuzzySearch;
+            if (userManage.fuzzySearch) {
+                param.fuzzy = $("#fuzzy-search").val();
+            }else{
+                param.name = $("#name-search").val();
+                param.position = $("#position-search").val();
+                param.office = $("#office-search").val();
+                param.extn = $("#extn-search").val();
+                param.status = $("#status-search").val();
+                param.role = $("#role-search").val();
+            }
+            //组装分页参数
+            param.startIndex = data.start;
+            param.pageSize = data.length;
+
+            return param;
+        }
+    });
+</script>
+</body>
+</html>
