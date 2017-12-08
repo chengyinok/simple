@@ -122,7 +122,64 @@ var Base = {
                 }
             }
         });
+    },
+    dataTableQueryParams : function(data,searchFormId) {
+        var order = data.order;
+        var columns = data.columns;
+        var index = order[0].column;
+        data.sort = order[0].dir;
+        data.order = columns[index].data;
+        $.each($("#"+searchFormId).serializeArray(),function (i,field) {
+            if(null != field.value && ""!=field.value){
+                data[field.name] = field.value;
+            }
+        });
+    },
+    dataTableParams :function (data, callback, settings) {
+        var params = {};
+        var searchFormId = settings.oInit.searchFormId;
+        var url = settings.oInit.ajaxUrl;
+        var order = data.order;
+        var columns = data.columns;
+        var index = order[0].column;
+        params.sort = order[0].dir;
+        params.order = columns[index].data;
+        params.start = data.start;
+        params.length = data.length;
+        params.draw = data.draw;
+
+        $.each($("#"+searchFormId).serializeArray(),function (i,field) {
+            if(null != field.value && ""!=field.value){
+                params[field.name] = field.value;
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: url,
+            cache : false,  //禁用缓存
+            data: params,    //传入已封装的参数
+            dataType: "json",
+            success: function(result) {
+                //异常判断与处理
+                if (result.errorCode) {
+                    // $.dialog.alert("查询失败。错误码："+result.errorCode);
+                    return;
+                }
+
+                //封装返回数据，这里仅演示了修改属性名
+                var returnData = {};
+                returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+                returnData.recordsTotal = result.recordsTotal;
+                returnData.recordsFiltered = result.recordsFiltered;//后台不实现过滤功能，每次查询均视作全部结果
+                returnData.data = result.data;
+                //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
+                //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
+                callback(returnData);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                // $.dialog.alert("查询失败");
+                // $wrapper.spinModal(false);
+            }
+        });
     }
-
-
 }

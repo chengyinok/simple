@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Study</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
     <!--https://www.datatables.net/download/release-->
     <!--<link rel="stylesheet" data-th-href="@{/dataTables/css/jquery.dataTables.css}"/>-->
     <!--<link rel="stylesheet" data-th-href="@{/dataTables/css/dataTables.bootstrap.css}"/>-->
@@ -23,7 +24,24 @@
     </style>
 </head>
 <body>
-
+<div id="searchDiv" class="form-inline">
+    <form action="#" id="searchForm">
+        <div class="editable-input" style="position: relative">
+            <input name="commonName" class="form-control" placeholder="商品名称" />
+            <span class="editable-clear-x js-inputClear"></span>
+        </div>
+        <div class="editable-input" style="position: relative">
+            <input name="goodsFactory" class="form-control" placeholder="厂家" />
+            <span class="editable-clear-x js-inputClear"></span>
+        </div>
+        <div class="editable-input" style="position: relative">
+            <input name="userSupperName" class="form-control" placeholder="供应商" />
+            <span class="editable-clear-x js-inputClear"></span>
+        </div>
+        <button class="btn btn-primary" id="search" type="button">搜索</button>
+        <button class="btn btn-warning" id="reset" type="reset">清空</button>
+    </form>
+</div>
 <div>
     <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%" style="white-space: nowrap;" >
         <thead>
@@ -63,9 +81,17 @@
 <script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/buttons.bootstrap.min.js}"/>
 <script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/buttons.colVis.min.js}"/>
 <script data-th-src="@{https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js}"/>
+<script th:src="@{/js/base.js}" />
 <script type="text/javascript" language="javascript" class="init">
     $(document).ready(function () {
-        $('#example').DataTable({
+
+        var exampleTable = '';
+
+        $("#search").click(function () {
+            exampleTable.fnDraw();
+        });
+
+        exampleTable = $('#example').dataTable({
             "language": {
                 "sProcessing":   "处理中...",
                 "sLengthMenu":   "显示 _MENU_ 项结果",
@@ -105,14 +131,15 @@
             }
             ,"scrollY": 500
             ,"scrollX": true
-//            ,"ajax":'/buyPlan/dts'
-            ,"ajax":function(data, callback, settings){
-                var order = data.order;
-                var columns = data.columns;
-                var index = order[0].column;
-                var dir = order[0].dir;
-                var orderName = columns[index].data;
-            }
+            ,ajaxUrl:'/buyPlan/dts'
+            ,searchFormId :"searchForm"
+            ,ajax : Base.dataTableParams
+//            ,"ajax": {
+//                url : '/buyPlan/dts'
+//                ,data: function (data) {
+//                    Base.dataTableQueryParams(data,'searchForm');
+//                }
+//            }
             ,"serverSide": true
             ,"columns":[
                 {"data":"commonName"}
@@ -154,48 +181,7 @@
                 $(this).html(value);
             }
         });
-        
-        function getQueryCondition(data) {
-            var param = {};
-            //组装排序参数
-            if (data.order&&data.order.length&&data.order[0]) {
-                switch (data.order[0].column) {
-                    case 1:
-                        param.orderColumn = "name";
-                        break;
-                    case 2:
-                        param.orderColumn = "position";
-                        break;
-                    case 3:
-                        param.orderColumn = "status";
-                        break;
-                    case 4:
-                        param.orderColumn = "start_date";
-                        break;
-                    default:
-                        param.orderColumn = "name";
-                        break;
-                }
-                param.orderDir = data.order[0].dir;
-            }
-            //组装查询参数
-            param.fuzzySearch = userManage.fuzzySearch;
-            if (userManage.fuzzySearch) {
-                param.fuzzy = $("#fuzzy-search").val();
-            }else{
-                param.name = $("#name-search").val();
-                param.position = $("#position-search").val();
-                param.office = $("#office-search").val();
-                param.extn = $("#extn-search").val();
-                param.status = $("#status-search").val();
-                param.role = $("#role-search").val();
-            }
-            //组装分页参数
-            param.startIndex = data.start;
-            param.pageSize = data.length;
 
-            return param;
-        }
     });
 </script>
 </body>
