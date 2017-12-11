@@ -16,6 +16,7 @@
     <link rel="stylesheet" data-th-href="@{https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css}"/>
     <link rel="stylesheet" data-th-href="@{https://cdn.datatables.net/buttons/1.4.2/css/buttons.bootstrap.min.css}"/>
     <link rel="stylesheet" data-th-href="@{https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.bootstrap.min.css}"/>
+    <link rel="stylesheet" data-th-href="@{/dataTables/plugins/colVis/dataTables.colVis.css}"/>
     <style type="text/css">
         table tbody td{
             color: #1E9FFF;
@@ -24,34 +25,32 @@
     </style>
 </head>
 <body>
-<div id="searchDiv" class="form-inline">
-    <form action="#" id="searchForm">
-        <div class="editable-input" style="position: relative">
-            <input name="commonName" class="form-control" placeholder="商品名称" />
-            <span class="editable-clear-x js-inputClear"></span>
-        </div>
-        <div class="editable-input" style="position: relative">
-            <input name="goodsFactory" class="form-control" placeholder="厂家" />
-            <span class="editable-clear-x js-inputClear"></span>
-        </div>
-        <div class="editable-input" style="position: relative">
-            <input name="userSupperName" class="form-control" placeholder="供应商" />
-            <span class="editable-clear-x js-inputClear"></span>
-        </div>
-        <button class="btn btn-primary" id="search" type="button">搜索</button>
-        <button class="btn btn-warning" id="reset" type="reset">清空</button>
-    </form>
-</div>
+<!--<div id="searchDiv" class="form-inline">-->
+    <!--<form action="#" id="searchForm">-->
+        <!--<div class="editable-input" style="position: relative">-->
+            <!--<input name="commonName" class="form-control" placeholder="商品名称" />-->
+            <!--<span class="editable-clear-x js-inputClear"></span>-->
+        <!--</div>-->
+        <!--<div class="editable-input" style="position: relative">-->
+            <!--<input name="goodsFactory" class="form-control" placeholder="厂家" />-->
+            <!--<span class="editable-clear-x js-inputClear"></span>-->
+        <!--</div>-->
+        <!--<div class="editable-input" style="position: relative">-->
+            <!--<input name="userSupperName" class="form-control" placeholder="供应商" />-->
+            <!--<span class="editable-clear-x js-inputClear"></span>-->
+        <!--</div>-->
+        <!--<button class="btn btn-primary" id="search" type="button">搜索</button>-->
+        <!--<button class="btn btn-warning" id="reset" type="reset">清空</button>-->
+    <!--</form>-->
+<!--</div>-->
 <div>
-    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%" style="white-space: nowrap;" >
+    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%"  >
         <thead>
         <tr>
             <th>商品名称</th>
             <th>规格</th>
             <th>单位</th>
             <th>厂家</th>
-            <th>供应商</th>
-            <th>供应商</th>
             <th>供应商</th>
             <th>单价</th>
             <th>零售价</th>
@@ -81,6 +80,8 @@
 <script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/buttons.bootstrap.min.js}"/>
 <script data-th-src="@{https://cdn.datatables.net/buttons/1.4.2/js/buttons.colVis.min.js}"/>
 <script data-th-src="@{https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js}"/>
+<script data-th-src="@{/dataTables/plugins/colResize/dataTables.colResize.js}"/>
+<script data-th-src="@{/dataTables/plugins/colVis/dataTables.colVis.js}"/>
 <script th:src="@{/js/base.js}" />
 <script type="text/javascript" language="javascript" class="init">
     $(document).ready(function () {
@@ -92,7 +93,8 @@
         });
 
         exampleTable = $('#example').dataTable({
-            "language": {
+            dom: 'CZlfrtip'
+            ,"language": {
                 "sProcessing":   "处理中...",
                 "sLengthMenu":   "显示 _MENU_ 项结果",
                 "sZeroRecords":  "没有匹配结果",
@@ -120,16 +122,16 @@
                 }
             }
             ,"paging": false
-            ,dom: 'frBtip'
+//            ,dom: 'frBtip'
             ,buttons: [ 'colvis' ]
             ,"searching": false
             ,"autoWidth": true
 //            ,fixedHeader: true
-            ,fixedColumns: {
-                leftColumns: 0,
-                rightColumns: 1
-            }
-            ,"scrollY": 500
+//            ,fixedColumns: {
+//                leftColumns: 0,
+//                rightColumns: 1
+//            }
+//            ,"scrollY": 500
             ,"scrollX": true
             ,ajaxUrl:'/buyPlan/dts'
             ,searchFormId :"searchForm"
@@ -146,8 +148,6 @@
                 ,{"data":"goodsSpec"}
                 ,{"data":"goodsUtil"}
                 ,{"data":"goodsFactory"}
-                ,{"data":"userSupperName"}
-                ,{"data":"userSupperName"}
                 ,{"data":"userSupperName"}
                 ,{"data":"goodsPrice"}
                 ,{"data":"sellPrice"}
