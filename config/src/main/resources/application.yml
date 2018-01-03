@@ -13,7 +13,7 @@ spring:
   #数据源配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/simple
+    url: jdbc:mysql://127.0.0.1:3306/vue?tinyInt1isBit=false
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -31,7 +31,7 @@ spring:
       min-idle: 0
     timeout: 0
 mybatis-plus:
-  mapper-locations: classpath:/dao/*/*Mapper.xml
+  mapper-locations: classpath:/mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.study.*.entity
   global-config:

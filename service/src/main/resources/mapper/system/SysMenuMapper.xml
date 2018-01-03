@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.system.dao.SysMenuDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.study.system.entity.SysMenu">
+        <id column="menuId" property="menuId" />
+        <result column="parentId" property="parentId" />
+        <result column="menuName" property="menuName" />
+        <result column="menuPath" property="menuPath" />
+        <result column="components" property="components" />
+        <result column="menuTitle" property="menuTitle" />
+        <result column="menuIcon" property="menuIcon" />
+        <result column="isHidden" property="isHidden" />
+        <result column="isCache" property="isCache" />
+    </resultMap>
+
+    <resultMap id="MulResultMap" type="com.study.system.entity.SysMenu">
+        <id column="menuId" property="menuId" />
+        <result column="parentId" property="parentId" />
+        <result column="menuName" property="menuName" />
+        <result column="menuPath" property="menuPath" />
+        <result column="components" property="components" />
+        <result column="menuTitle" property="menuTitle" />
+        <result column="menuIcon" property="menuIcon" />
+        <result column="isHidden" property="isHidden" />
+        <result column="isCache" property="isCache" />
+        <collection property="children" ofType="com.study.system.entity.SysMenu">
+            <id column="cMenuId" property="menuId" />
+            <result column="cMenuName" property="menuName" />
+            <result column="cMenuPath" property="menuPath" />
+            <result column="cComponents" property="components" />
+            <result column="cMenuTitle" property="menuTitle" />
+            <result column="cMenuIcon" property="menuIcon" />
+            <result column="cIsHidden" property="isHidden" />
+            <result column="cIsCache" property="isCache" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        menuId AS menuId, parentId AS parentId, menuName AS menuName, menuPath AS menuPath, components, menuTitle AS menuTitle, menuIcon AS menuIcon, isHidden AS isHidden, isCache AS isCache
+    </sql>
+
+    <!--获取所有菜单-->
+    <select id="getAllMenu" resultMap="MulResultMap">
+        SELECT
+            p.*,
+            c.menuId       cMenuId,
+            c.menuName     cMenuName,
+            c.menuPath     cMenuPath,
+            c.components   cComponents,
+            c.menuTitle    cMenuTitle,
+            c.menuIcon     cMenuIcon,
+            c.isHidden     cIsHidden,
+            c.isCache      cIsCache
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    sys_menu
+                WHERE
+                    parentId = 0
+            ) p
+        LEFT JOIN sys_menu c
+        ON p.menuId = c.parentId
+    </select>
+
+</mapper>
