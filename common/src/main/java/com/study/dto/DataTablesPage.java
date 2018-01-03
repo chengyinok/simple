@@ -57,12 +57,30 @@ public class DataTablesPage {
         this.length = length;
     }
 
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
     @Override
     public String toString() {
         return "DataTablesPage{" +
                 "draw=" + draw +
                 ", start=" + start +
                 ", length=" + length +
+                ", order='" + order + '\'' +
+                ", sort='" + sort + '\'' +
                 '}';
     }
 }
