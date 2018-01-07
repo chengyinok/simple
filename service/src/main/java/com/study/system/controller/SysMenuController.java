@@ -4,10 +4,12 @@ package com.study.system.controller;
 import com.study.system.entity.SysMenu;
 import com.study.system.service.SysMenuService;
 import io.swagger.annotations.ApiOperation;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.client.transport.TransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +34,22 @@ public class SysMenuController {
         return sysMenuService.getAllMenu();
     }
 
+
+    @Autowired
+    private TransportClient client;
+
+    @GetMapping("/get/book/novel")
+    @ResponseBody
+    public ResponseEntity get(@RequestParam(name="id",defaultValue = "")String id){
+        if(id.isEmpty()){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        GetResponse result = this.client.prepareGet("book","novel",id).get();
+        if(!result.isExists()){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(result.getSource(), HttpStatus.OK);
+    }
 
 }
 
