@@ -35,21 +35,7 @@ public class SysMenuController {
     }
 
 
-    @Autowired
-    private TransportClient client;
 
-    @GetMapping("/get/book/novel")
-    @ResponseBody
-    public ResponseEntity get(@RequestParam(name="id",defaultValue = "")String id){
-        if(id.isEmpty()){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        GetResponse result = this.client.prepareGet("book","novel",id).get();
-        if(!result.isExists()){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity(result.getSource(), HttpStatus.OK);
-    }
 
 }
 
